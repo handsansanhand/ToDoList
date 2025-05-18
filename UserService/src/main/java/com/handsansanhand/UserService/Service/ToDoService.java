@@ -1,5 +1,6 @@
-package com.handsansanhand.UserService.service;
+package com.handsansanhand.UserService.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -34,6 +35,11 @@ public class ToDoService {
         ToDoItem savedItem = toDoItemRepository.save(newItem);
         return Optional.of(savedItem);
     }
+
+    //return all to do items for a user
+    public List<ToDoItem> getToDoItemsForUser(Long userID) {
+    return toDoItemRepository.findByUserId(userID);
+}
 
     
     
