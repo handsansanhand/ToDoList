@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  userservice:
+    build: /UserService
+    container_name: backend
+    ports:
+      - "8081:8081"
+    networks:
+      - backend
+  nginx:
+    build: /nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+networks:
+  backend:
+volumes:
+  pgdata:
