@@ -3,11 +3,12 @@ package com.handsansanhand.UserService.Controller;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.handsansanhand.UserService.Model.User;
@@ -34,7 +35,7 @@ public class UserController {
     }
     
      @GetMapping("/{userID}")
-    public ResponseEntity<?> getUserByID(@RequestParam Long userID) {
+    public ResponseEntity<?> getUserByID(@PathVariable Long userID) {
         Optional<User> user = userService.getUserByID(userID);
         if(user.isEmpty()) {
             return ResponseEntity.badRequest().body("User " + userID + " does not exist.");
@@ -55,6 +56,14 @@ public class UserController {
         }
 
         return ResponseEntity.ok("User " + request.name + " has been created.");
+    }
+
+    @DeleteMapping("/{userID}")
+    public ResponseEntity<?> deleteUserByID(@PathVariable Long userID) {
+         if(userService.deleteUser(userID)) {
+            return ResponseEntity.ok("User " + userID + " has been deleted.");
+         }
+         return ResponseEntity.ok("User cannot be deleted, it does not exist.");
     }
     
 

@@ -45,6 +45,26 @@ public class ToDoService {
     return toDoItemRepository.findAll();
 }
 
+//method for marking a certain to do method as complete or incomplete
+public Optional<ToDoItem> toggleCompleted(Long toDoItemId) {
+ Optional<ToDoItem> itemOpt = toDoItemRepository.findById(toDoItemId);
+    if (itemOpt.isEmpty()) {
+        return Optional.empty();
+    }
+    ToDoItem item = itemOpt.get();
+    item.setCompleted(!item.isCompleted());
+    ToDoItem updatedItem = toDoItemRepository.save(item);
+    return Optional.of(updatedItem);
+}
+
+
+    public boolean deleteTask(Long taskID) {
+        if (toDoItemRepository.existsById(taskID)) {
+            toDoItemRepository.deleteById(taskID);
+            return true;
+        }
+        return false;
+    }
     
     
 }
