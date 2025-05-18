@@ -1,10 +1,10 @@
-package com.handsansanhand.todolist;
+package com.handsansanhand.UserService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TodolistApplicationTests {
+class UserServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.handsansanhand</groupId>
-	<artifactId>todolist</artifactId>
+	<artifactId>UserService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>todolist</name>
+	<name>UserService</name>
 	<description>Backend implementation of a to-do list</description>
 	<url/>
 	<licenses>
