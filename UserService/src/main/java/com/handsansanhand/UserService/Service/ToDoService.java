@@ -40,6 +40,10 @@ public class ToDoService {
     public List<ToDoItem> getToDoItemsForUser(Long userID) {
     return toDoItemRepository.findByUserId(userID);
 }
+    //return all to do items for a user
+    public List<ToDoItem> getAllToDoItems() {
+    return toDoItemRepository.findAll();
+}
 
     
     

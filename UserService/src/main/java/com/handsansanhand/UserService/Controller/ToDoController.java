@@ -17,11 +17,12 @@ import com.handsansanhand.UserService.Service.ToDoService;
 
 
 
+
 /*
  * Simple rest controller which is 
  */
 @RestController
-@RequestMapping("/todo/{userID}")
+@RequestMapping("/todo")
 public class ToDoController {
     private final ToDoService toDoService;
 
@@ -35,12 +36,13 @@ public class ToDoController {
     }
 
     //to do request will be a json which is automatically converted using jackson
-    @PostMapping
+    @PostMapping("/{userID}")
     public ResponseEntity<?> addToDoItem(@PathVariable Long userID, @RequestBody ToDoRequest request) {
         //TODO: process POST request
             if (request.title == null || request.title.isBlank()) {
         return ResponseEntity.badRequest().body("Title is required.");
     }   
+    
       Optional<ToDoItem> newItem = toDoService.addToDoItem(userID, request.title, request.description);
 
         if (newItem.isEmpty()) {
@@ -50,8 +52,8 @@ public class ToDoController {
     }
 
     //get request will return a list of to do objects for a given user
-    @GetMapping
-    public ResponseEntity<?> getAllToDoItems(@PathVariable Long userID) {
+    @GetMapping("/{userID}")
+    public ResponseEntity<?> getAllToDoItemsForUser(@PathVariable Long userID) {
         List<ToDoItem> items = toDoService.getToDoItemsForUser(userID);
 
         if(items.isEmpty()) {
@@ -60,6 +62,11 @@ public class ToDoController {
 
         return ResponseEntity.ok(items);
     }
+    @GetMapping
+    public ResponseEntity<?> getAllToDoItems() {
+        return ResponseEntity.ok(toDoService.getAllToDoItems());
+    }
+    
     
     
 }
