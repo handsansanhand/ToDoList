@@ -1,16 +1,27 @@
-#stage 1: build the react app
-FROM node:18-alpine as frontend_build
+#fetching the latest node image on apline linux
+FROM node:alpine AS builder
+
+#declaring env
+ENV NODE_ENV production
+
+#setting up the work directory
 WORKDIR /app
-COPY package*.json ./
+
+#installing dependencies
+COPY ./package.json ./
 RUN npm install
+
+#copying all the files in our project
 COPY . .
+
+#building our application
 RUN npm run build
 
-#stage 2: Serve with nginx + proxy config
-FROM nginx:alpine
-#copy custom nginx config into container
-COPY nginx.conf /etc/nginx/nginx.conf
-#copy built React files into nginx served directory
-COPY --from=frontend_build /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+#fetching the latest nginx image
+FROM nginx
+
+#copying built assets from builder
+COPY --from=builder /app/build /usr/share/nginx/html
+
+#copying our nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
