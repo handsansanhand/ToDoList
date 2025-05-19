@@ -1,12 +1,12 @@
-package com.handsansanhand.UserService.Service;
+package com.handsansanhand.Backend.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.handsansanhand.UserService.Model.User;
-import com.handsansanhand.UserService.Repository.UserRepository;
+import com.handsansanhand.Backend.Model.User;
+import com.handsansanhand.Backend.Repository.UserRepository;
 
 /*
  * Simple user service class which contains functionality for creating users and deleting them from the repository

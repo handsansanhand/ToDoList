@@ -1,4 +1,4 @@
-package com.handsansanhand.UserService.Model;
+package com.handsansanhand.Backend.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 

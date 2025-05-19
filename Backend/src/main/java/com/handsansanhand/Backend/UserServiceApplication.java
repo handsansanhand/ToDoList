@@ -1,4 +1,4 @@
-package com.handsansanhand.UserService;
+package com.handsansanhand.Backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

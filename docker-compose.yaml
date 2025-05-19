@@ -1,19 +1,39 @@
 version: '3.8'
 services:
-  userservice:
-    build: /UserService
+  postgres:
+    image: postgres:17
+    container_name: todolist-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: todolist_db
+    ports:
+      - "5432:5432"
+    networks:
+      - backend_network
+  backend:
+    build: /Backend
     container_name: backend
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://todolist-db:5432/todolist_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
     ports:
       - "8081:8081"
     networks:
-      - backend
+      - backend_network
+    
   nginx:
     build: /nginx
     ports:
-      - "80:80"
+      - "8000:80"
     depends_on:
       - backend
+    networks:
+      - backend_network
 networks:
-  backend:
+  backend_network:
 volumes:
   pgdata:

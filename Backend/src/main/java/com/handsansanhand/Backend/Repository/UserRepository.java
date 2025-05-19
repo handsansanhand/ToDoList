@@ -1,4 +1,4 @@
-package com.handsansanhand.UserService.Repository;
+package com.handsansanhand.Backend.Repository;
 
 
 import java.util.Optional;
@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.handsansanhand.UserService.Model.User;
+import com.handsansanhand.Backend.Model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {

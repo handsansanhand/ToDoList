@@ -1,11 +1,11 @@
-package com.handsansanhand.UserService.Repository;
+package com.handsansanhand.Backend.Repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.handsansanhand.UserService.Model.ToDoItem;
+import com.handsansanhand.Backend.Model.ToDoItem;
 
 @Repository
 public interface ToDoItemRepository extends JpaRepository<ToDoItem, Long> {

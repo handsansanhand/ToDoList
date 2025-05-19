@@ -1,14 +1,14 @@
-package com.handsansanhand.UserService.Service;
+package com.handsansanhand.Backend.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.handsansanhand.UserService.Model.ToDoItem;
-import com.handsansanhand.UserService.Model.User;
-import com.handsansanhand.UserService.Repository.ToDoItemRepository;
-import com.handsansanhand.UserService.Repository.UserRepository;
+import com.handsansanhand.Backend.Model.ToDoItem;
+import com.handsansanhand.Backend.Model.User;
+import com.handsansanhand.Backend.Repository.ToDoItemRepository;
+import com.handsansanhand.Backend.Repository.UserRepository;
 
 /*  A simple service which updates the to_do items of a user, or returns a list of to_do items for a user
  */
