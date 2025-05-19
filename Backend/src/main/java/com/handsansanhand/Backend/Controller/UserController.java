@@ -28,17 +28,50 @@ public class UserController {
 
     public static class UserRequest {
     public String name;
+    public String password;
 }
     @GetMapping
     public ResponseEntity<?> getAllUsers() {
        return ResponseEntity.ok(userService.getAllUsers());
     }
     
-     @GetMapping("/{userID}")
+     @GetMapping("/id/{userID}")
     public ResponseEntity<?> getUserByID(@PathVariable Long userID) {
         Optional<User> user = userService.getUserByID(userID);
         if(user.isEmpty()) {
             return ResponseEntity.badRequest().body("User " + userID + " does not exist.");
+        }
+       return ResponseEntity.ok(user);
+    }
+
+    //check if its a valid user, needs to 1) check the user exists 2) check if the password matches
+    @GetMapping("/user")
+    public ResponseEntity<?> getUserByName(@RequestBody UserRequest request) {
+        Optional<User> user = userService.getUserByUsername(request.name);
+        if(user.isEmpty()) {
+            return ResponseEntity.badRequest().body("User " + request.name + " does not exist.");
+        }
+        boolean matches = userService.passwordMatches(user.get().getName(), request.password);
+        if(!matches) {
+            return ResponseEntity.badRequest().body("Invalid Password, please try again.");
+        }
+       return ResponseEntity.ok(user);
+    }
+
+    //check if its a valid user, needs to 1) check the user exists 2) check if the password matches
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody UserRequest request) {
+        Optional<User> user = userService.getUserByUsername(request.name);
+        if(user.isEmpty()) {
+            return ResponseEntity.badRequest().body("User " + request.name + " does not exist.");
+        }
+        boolean matches = userService.passwordMatches(request.password, user.get().getPassword());
+        System.out.println("user password " + user.get().getPassword() + " for user " + user.get().getName());
+        System.out.println(request.password);
+        System.out.println(userService.hashedPassword(request.password));
+        System.out.println("These passwords match: " + matches);
+        if(!matches) {
+            return ResponseEntity.badRequest().body("Invalid Password, please try again.");
         }
        return ResponseEntity.ok(user);
     }
@@ -50,7 +83,7 @@ public class UserController {
         if (request.name == null || request.name.isBlank()) {
             return ResponseEntity.badRequest().body("Name is required.");
         }
-        Optional<User> newUser = userService.createUser(request.name);
+        Optional<User> newUser = userService.createUser(request.name, request.password);
         if(newUser.isEmpty()) {
             return ResponseEntity.badRequest().body("User with the name " + request.name + " already exists.");
         }

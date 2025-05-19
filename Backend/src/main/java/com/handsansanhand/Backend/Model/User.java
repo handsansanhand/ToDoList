@@ -25,6 +25,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -32,10 +33,11 @@ public class User {
     
     public User() {} // needed by JPA
 
-    public User(String name) {
+    public User(String name, String password) {
         this.name = name;
+        this.password = password;
     }
-
+    
       public Long getId() {
         return id;
     }
@@ -54,6 +56,14 @@ public class User {
 
     public void setTodoItems(List<ToDoItem> todoItems) {
         this.todoItems = todoItems;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

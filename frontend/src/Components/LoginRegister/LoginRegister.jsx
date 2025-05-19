@@ -22,7 +22,7 @@ const LoginRegister = () => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({name: name})
+        body: JSON.stringify({name: name, password : password})
       })
       .then(response => { 
         alert(response.status);
@@ -36,6 +36,28 @@ const LoginRegister = () => {
     .catch(error => {
         setError(error.message);
     })
+     } else if (action === "Login") {
+        //check if the user exists and is the right password
+        setError("");
+        fetch(`api/users/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+         body: JSON.stringify({name: name, password : password})
+      }).then(response => {
+        //the user does not exist
+        if(!response.ok) {
+             return response.text().then(text => {
+              throw new Error(text);
+            });
+        }
+        return response.text();
+      })
+      .catch(error => {
+        setError(error.message)
+      } 
+      )
      }
     }
   };
