@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import './LoginRegister.css'
 
 /*React web app which handles functionality for signing up users and them logging in*/
 const LoginRegister = () => {
-
+    const navigate = useNavigate();
     const [action, setAction] = useState("Sign Up");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
@@ -31,8 +32,12 @@ const LoginRegister = () => {
               throw new Error(text);
             });
         }
+        else {
+            navigate('/dashboard');
+        }
         return response.text();
     })
+    
     .catch(error => {
         setError(error.message);
     })
@@ -51,6 +56,9 @@ const LoginRegister = () => {
              return response.text().then(text => {
               throw new Error(text);
             });
+        }
+        else {
+            navigate('/dashboard');
         }
         return response.text();
       })
