@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - backend_network
+      - to_do_network
   backend:
     build: /Backend
     container_name: backend
@@ -23,17 +23,15 @@ services:
     ports:
       - "8081:8081"
     networks:
-      - backend_network
-    
-  nginx:
-    build: /nginx
+      - to_do_network
+  frontend:
+    build: /frontend
+    container_name: frontend_container
     ports:
-      - "8000:80"
-    depends_on:
-      - backend
+      - "8082:80"
     networks:
-      - backend_network
+      - to_do_network
 networks:
-  backend_network:
+  to_do_network:
 volumes:
   pgdata:
