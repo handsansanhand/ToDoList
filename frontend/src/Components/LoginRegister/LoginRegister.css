@@ -66,8 +66,15 @@
     border: none;
     outline: none;
     font-size: 19px;
+    margin-left: 20px;
 }
-
+.error{
+    color: red;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 700;
+}
 .submit-container {
     display: flex;
     gap: 30px;
@@ -102,4 +109,9 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.gray{
+    background: #EAEAEA;
+    color: #676767;
 }
