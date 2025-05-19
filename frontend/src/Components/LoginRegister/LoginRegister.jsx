@@ -14,9 +14,29 @@ const LoginRegister = () => {
     if (!name || !password) {
       setError("Name and Password cannot be empty.");
     } else {
+        if(action==="Sign Up") {
       setError("");
-      // here send a fetch() call to the backend later
-      alert(`${action} successful for user: ${name}`);
+      // here send a fetch() call to the backend, need to first check if no errors were thrown
+      fetch("api/users", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({name: name})
+      })
+      .then(response => { 
+        alert(response.status);
+        if(!response.ok) {
+            return response.text().then(text => {
+              throw new Error(text);
+            });
+        }
+        return response.text();
+    })
+    .catch(error => {
+        setError(error.message);
+    })
+     }
     }
   };
 
