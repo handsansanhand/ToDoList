@@ -1,5 +1,44 @@
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import './Dashboard.css'
+
 function Dashboard() {
-  return <h1>Welcome to your dashboard!</h1>;
+   const navigate = useNavigate();
+     const [action, setAction] = useState("Tasks");
+  return (
+    
+    <div>
+      <div className="userDropDown">
+            <DropdownButton id="dropdown-basic-button" title="Dropdown button">
+      <Dropdown.Item href="#/action-1" onClick={() => {
+        navigate("/");
+      }}>Log Out</Dropdown.Item>
+      </DropdownButton>
+      </div>
+    <div className="bigtitle">
+        To Do List
+    </div>
+
+    <div className="container"> 
+     <div className="topRow">
+          
+           <div className={action=="Completed Tasks"? "submit gray" : "submit"}
+                           onClick={()=>{
+                    setAction("Tasks")
+                    }}>
+            Tasks</div>
+          <div className={action=="Tasks"? "submit gray" : "submit"}
+                           onClick={()=>{
+                    setAction("Completed Tasks")
+                    }}>
+            Completed Tasks</div>
+      </div>
+
+    </div>
+    </div>
+  );
 }
 
 export default Dashboard;
