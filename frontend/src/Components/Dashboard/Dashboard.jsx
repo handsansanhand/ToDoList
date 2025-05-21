@@ -115,13 +115,23 @@ const fetchTasks = (currentAction) => {
       onClick={() => setShowModal(true)}
       >Add Task</Button>
       <div className="taskList">
-        {tasks.map((task, index) => (
-          <div key={index} className="taskItem">
-          <h3>{task.title}</h3>
-          <p>{task.description}</p>
-         </div>
-        ))}
+  {tasks.map((task, index) => (
+    <div key={index} className="taskItem">
+      <Form.Check 
+        type="checkbox"
+        id={`checkbox-${task.id}`} // assuming each task has a unique `id`
+        label=""
+        //onChange={() => handleCompleteTask(task.id)}
+        checked={action === "Completed Tasks"} // optional — show checked in completed view
+        disabled={action === "Completed Tasks"} // disable in completed view
+      />
+      <div className="taskContent">
+        <h3>{task.title}</h3>
+        <p>{task.description}</p>
       </div>
+    </div>
+  ))}
+</div>
     </div>
      {/* the form that pops up when a user is prompted to enter a to do item */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
