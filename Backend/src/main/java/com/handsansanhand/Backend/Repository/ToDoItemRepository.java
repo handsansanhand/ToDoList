@@ -11,5 +11,7 @@ import com.handsansanhand.Backend.Model.ToDoItem;
 public interface ToDoItemRepository extends JpaRepository<ToDoItem, Long> {
     //finds all the to_do items by a certain user id
     List<ToDoItem> findByUserId(Long userId);
+    List<ToDoItem> findByUserName(String userName);
     List<ToDoItem> findByUserIdAndCompleted(Long userId, boolean completed);
+    List<ToDoItem> findByUserNameAndCompleted(String userName, boolean completed);
 }

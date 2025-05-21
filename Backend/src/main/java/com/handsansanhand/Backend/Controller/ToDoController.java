@@ -53,6 +53,21 @@ public class ToDoController {
     return ResponseEntity.status(HttpStatus.CREATED).body(newItem.get());
     }
 
+        //to do request will be a json which is automatically converted using jackson
+    @PostMapping("/name/{userName}")
+    public ResponseEntity<?> addToDoItemByName(@PathVariable String userName, @RequestBody ToDoRequest request) {
+        //TODO: process POST request
+            if (request.title == null || request.title.isBlank()) {
+        return ResponseEntity.badRequest().body("Title is required.");
+    }   
+    
+      Optional<ToDoItem> newItem = toDoService.addToDoItemByName(userName, request.title, request.description);
+
+        if (newItem.isEmpty()) {
+        return ResponseEntity.badRequest().body("User not found.");
+    }
+    return ResponseEntity.status(HttpStatus.CREATED).body(newItem.get());
+    }
     //toggle a tasks completedness
     @PutMapping("/{toDoID}")
     public ResponseEntity<?> toggleTaskCompleted(@PathVariable Long toDoID) {
@@ -73,9 +88,42 @@ public class ToDoController {
         if(items.isEmpty()) {
             return ResponseEntity.badRequest().body("No items for the user " + userID);
         }
+        return ResponseEntity.ok(items);
+    }
+        //get request will return a list of to do objects for a given user
+    @GetMapping("/name/{userName}")
+    public ResponseEntity<?> getAllToDoItemsForUserByName(@PathVariable String userName) {
+        List<ToDoItem> items = toDoService.getToDoItemsForUserByName(userName);
+
+        if(items.isEmpty()) {
+            return ResponseEntity.badRequest().body("No items for the user " + userName);
+        }
 
         return ResponseEntity.ok(items);
     }
+    // Get all completed tasks for a user
+@GetMapping("/name/{userName}/completed")
+public ResponseEntity<?> getCompletedTasks(@PathVariable String userName) {
+    List<ToDoItem> items = toDoService.getToDoItemsForUserByNameAndCompleted(userName, true);
+
+    if (items.isEmpty()) {
+        return ResponseEntity.badRequest().body("No completed items for " + userName);
+    }
+
+    return ResponseEntity.ok(items);
+}
+
+// Get all incomplete tasks for a user
+@GetMapping("/name/{userName}/incomplete")
+public ResponseEntity<?> getIncompleteTasks(@PathVariable String userName) {
+    List<ToDoItem> items = toDoService.getToDoItemsForUserByNameAndCompleted(userName, false);
+
+    if (items.isEmpty()) {
+        return ResponseEntity.badRequest().body("No incomplete items for " + userName);
+    }
+
+    return ResponseEntity.ok(items);
+}
     @GetMapping
     public ResponseEntity<?> getAllToDoItems() {
         return ResponseEntity.ok(toDoService.getAllToDoItems());

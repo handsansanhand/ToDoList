@@ -38,6 +38,7 @@ public class UserService {
     return userRepository.findByName(username);
     }
     
+    
     //check to see if the user exists first, if so return empty
     public Optional<User> createUser(String name, String password) {
         Optional<User> existingUser = userRepository.findByName(name);
@@ -54,7 +55,7 @@ public class UserService {
     public String hashedPassword(String pass) {
         return passwordEncoder.encode(pass);
     }
-    //password1 = 
+
     public boolean passwordMatches(String rawPassword, String hashedPassword) {
         return passwordEncoder.matches(rawPassword, hashedPassword);
     }

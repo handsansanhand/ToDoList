@@ -22,9 +22,10 @@
    margin: auto;
     height: 700px;
     width: 700px;
-     border-radius: 10px;
-      flex-direction: column;
-      overflow: hidden;
+    border-radius: 10px;
+    flex-direction: column;
+    padding: 20px;
+     align-items: center; 
 }
 
 .topRow {
@@ -72,9 +73,10 @@ display: flex;
 }
 
 .addItemBtn {
+      font-family: Arial, sans-serif;
   top: 20px;
   left: 20px;
-  width: 50px;
+  width: 150px;
   height: 50px;
   display: flex;
   align-items: center;
@@ -101,4 +103,29 @@ display: flex;
   font-size: 22px;
     font-family: Arial, sans-serif;
     margin-top: 20px;
+}
+
+.taskList {
+    width: 100%;
+  max-width: 500px;
+  margin-top: 20px;
+  overflow-y: auto;
+  max-height: 400px;  /* this controls how tall the scroll area is */
+  padding-right: 10px;
+}
+.taskList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.taskList::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+.taskItem {
+  background: #f3f3f3;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }

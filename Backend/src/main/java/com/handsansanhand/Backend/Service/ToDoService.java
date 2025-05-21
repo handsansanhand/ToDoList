@@ -35,10 +35,29 @@ public class ToDoService {
         ToDoItem savedItem = toDoItemRepository.save(newItem);
         return Optional.of(savedItem);
     }
+        public Optional<ToDoItem> addToDoItemByName(String userName, String title, String description) {
+        Optional<User> userOpt = userRepository.findByName(userName); //locate the user
+
+        if(userOpt.isEmpty()) {
+            return Optional.empty();
+        }
+        //extract the user, create a new to do item, and store it
+        User user = userOpt.get();
+        ToDoItem newItem = new ToDoItem(title, description, false, user);
+        ToDoItem savedItem = toDoItemRepository.save(newItem);
+        return Optional.of(savedItem);
+    }
 
     //return all to do items for a user
     public List<ToDoItem> getToDoItemsForUser(Long userID) {
     return toDoItemRepository.findByUserId(userID);
+}
+    //return all to do items for a user by name
+    public List<ToDoItem> getToDoItemsForUserByName(String userName) {
+    return toDoItemRepository.findByUserName(userName);
+}
+public List<ToDoItem> getToDoItemsForUserByNameAndCompleted(String userName, boolean completed) {
+    return toDoItemRepository.findByUserNameAndCompleted(userName, completed);
 }
     //return all to do items for a user
     public List<ToDoItem> getAllToDoItems() {
