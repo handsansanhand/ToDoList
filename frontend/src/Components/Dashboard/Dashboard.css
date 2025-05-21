@@ -122,10 +122,20 @@ display: flex;
   border-radius: 3px;
 }
 
+
+
 .taskItem {
   background: #f3f3f3;
   border-radius: 8px;
   padding: 15px;
   margin-bottom: 10px;
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+.taskItem .form-check-input {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+  accent-color: #0d6efd;
 }

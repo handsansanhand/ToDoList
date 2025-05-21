@@ -17,6 +17,7 @@ function Dashboard() {
   const [showModal, setShowModal] = useState(false);
   const [titleInput, setTitleInput] = useState("");
   const [descriptionInput, setDescriptionInput] = useState("");
+const [error, setError] = useState("");
 
 useEffect(() => {
   fetchTasks(action);
@@ -30,7 +31,7 @@ const fetchTasks = (currentAction) => {
   } else if (currentAction === "Tasks") {
     endpoint = `api/todo/name/${userName}/incomplete`;
   }
-  fetch(endpoint)
+  return fetch(endpoint)
     .then(response => {
       if (!response.ok) {
         throw new Error("Failed to fetch tasks");
@@ -45,44 +46,62 @@ const fetchTasks = (currentAction) => {
     });
 };
 
-
+//this is called after a task is completed, calling PUT /api/todo/taskID
+  const handleCompleteTask = (taskId) => {
+  fetch(`api/todo/${taskId}`, {
+    method: "PUT", // or POST/PATCH if that's how your API is set up
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Failed to complete task");
+      }
+      // after marking complete, refresh the current list
+      fetchTasks(action);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+};
   //this is called after the user has added a task
   //needs to call a fetch() post request to /todo/name/{userName}
-  const handleAddTask = () => {
-    console.log("Task added:", titleInput + " desc : " + descriptionInput);
-    setShowModal(false);
-    fetch(`api/todo/name/${userName}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({title: titleInput, description : descriptionInput})
-      })
-      .then(() => {
-      // After adding, refetch current list based on action
-      let endpoint = `api/todo/name/${userName}`;
-      if (action === "Completed Tasks") {
-        endpoint = `api/todo/name/${userName}/completed`;
-      } else if (action === "Tasks") {
-        endpoint = `api/todo/name/${userName}/incomplete`;
-      }
-      return fetch(endpoint);
-    })
+const handleAddTask = () => {
+  setError("");
+  if (!titleInput.trim()) {
+  setError("Task title cannot be empty.");
+  return;
+  }
+  fetch(`api/todo/name/${userName}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ title: titleInput, description: descriptionInput })
+  })
     .then(response => {
-    if (!response.ok) {
-      throw new Error("Failed to fetch tasks after adding");
-    }
-    return response.json();
-  })
-    .then(data => {
-    setTasks(data);
-  })
+      if (!response.ok) {
+        return response.text().then(text => {
+          throw new Error(text); // this will jump to catch()
+        });
+      }
+      // if post succeeded, return something to continue
+      return true;
+    })
+    .then(() => {
+      // after successful add, refetch tasks
+      return fetchTasks(action);
+    })
+    .then(() => {
+      // finally, close modal and reset inputs after everything succeeded
+      setShowModal(false);
+      setTitleInput("");
+      setDescriptionInput("");
+    })
     .catch(error => {
-    console.error(error);
-  });
-    setTitleInput("");
-    setDescriptionInput("");
-  };
+      console.error(error);
+      // only sets error and leaves modal open
+      setError(error.message);
+    });
+};
 
   return (
     
@@ -111,19 +130,24 @@ const fetchTasks = (currentAction) => {
                     }}>
             Completed Tasks</div>
       </div>
-      <Button variant="primary" className="addItemBtn"
-      onClick={() => setShowModal(true)}
-      >Add Task</Button>
+     {action === "Tasks" && (
+  <Button 
+    variant="primary" 
+    className="addItemBtn"
+    onClick={() => setShowModal(true)}
+  >
+    Add Task
+  </Button>
+)}
       <div className="taskList">
   {tasks.map((task, index) => (
     <div key={index} className="taskItem">
       <Form.Check 
         type="checkbox"
-        id={`checkbox-${task.id}`} // assuming each task has a unique `id`
+        id={`checkbox-${task.id}`} //send the task id
         label=""
-        //onChange={() => handleCompleteTask(task.id)}
-        checked={action === "Completed Tasks"} // optional — show checked in completed view
-        disabled={action === "Completed Tasks"} // disable in completed view
+        onChange={() => handleCompleteTask(task.id)}
+        checked={action === "Completed Tasks"} //show checked in completed view
       />
       <div className="taskContent">
         <h3>{task.title}</h3>
@@ -159,6 +183,7 @@ const fetchTasks = (currentAction) => {
       onChange={(e) => setDescriptionInput(e.target.value)}
     />
   </Form.Group>
+   {error && <div className="error">{error}</div>}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
