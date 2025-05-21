@@ -33,7 +33,7 @@ const LoginRegister = () => {
             });
         }
         else {
-            navigate('/dashboard');
+            navigate('/dashboard', { state: { name: name } });
         }
         return response.text();
     })
@@ -58,7 +58,7 @@ const LoginRegister = () => {
             });
         }
         else {
-            navigate('/dashboard');
+            navigate('/dashboard', { state: { name: name } });
         }
         return response.text();
       })
