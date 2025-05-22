@@ -1,4 +1,5 @@
 # Simple To-Do List Web Application
+# Created by Jack Wright
 
 A full-stack to-do list application with a React frontend and a Java Spring Boot backend.  
 Users can register, log in, add personal to-do tasks, and mark them as completed.
@@ -15,16 +16,16 @@ Users can register, log in, add personal to-do tasks, and mark them as completed
 ## Technologies Used
 
 ### Backend
-- **Java Spring Boot** — RESTful APIs for task management
-- **PostgreSQL** — Persistent data storage
+- **Java Spring Boot** - RESTful APIs for task management
+- **PostgreSQL** - Persistent data storage
 
 ### Frontend
 - **React**
-- **React-Bootstrap** — For UI components
-- **Nginx** — Acts as a reverse proxy for frontend deployment
+- **React-Bootstrap** - For UI components
+- **Nginx** - Acts as a reverse proxy for frontend deployment
 
 ### Deployment
-- **Docker** — Containerizes both frontend and backend services for easy deployment
+- **Docker** - Containerizes both frontend and backend services for easy deployment
 
 ---
 
